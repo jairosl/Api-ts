@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
+interface IJwtResponse {
+  id: string;
+  iat: number;
+  exp: number;
+
+}
 class Auth {
   verifyToken(request: Request, response: Response, next: NextFunction) {
     const token = request.headers;
@@ -12,7 +18,8 @@ class Auth {
 
     jwt.verify(tokenWithoutPrefix as string, process.env.SECRET as string, (err, decoded) => {
       if (err) return response.status(500).json({ message: "Failed to authenticate" });
-      request.userId = decoded?.toString();
+      const { id } = decoded as IJwtResponse;
+      request.userId = id;
       return next();
     });
 
