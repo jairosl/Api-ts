@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import {
   Column, Entity, JoinColumn, ManyToOne, PrimaryColumn,
@@ -34,7 +35,7 @@ class Address {
   @Column()
   user_id!: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, (user) => user.address)
   @JoinColumn({ name: "user_id" })
   user!: User;
 

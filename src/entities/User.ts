@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn, OneToMany } from "typeorm";
 import { v4 as uuid } from "uuid";
+import { Address } from "./Address";
 
 enum Ethnicity {
   "branco",
@@ -35,6 +36,9 @@ class User {
 
   @Column()
   ethnicity!: Ethnicity;
+
+  @OneToMany(type => Address, address => address.user)
+  address!: Address[];
 
   constructor() {
     if (!this.id) {
