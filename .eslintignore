@@ -1,2 +1,3 @@
 jest.config.ts
 *.js
+src/database/migrations/*
