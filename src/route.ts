@@ -9,12 +9,10 @@ const sessionController = new SessionController();
 const authMiddleware = new Auth();
 
 router.post("/user", userController.create);
-router.get("/user");
-router.get("/user/:id");
-router.put("/user/:id");
+router.get("/user/:id", userController.show);
+router.put("/user/:id", userController.update);
+router.delete("/user/:id", userController.delete);
 
 router.post("/signin", sessionController.singIn);
-router.use(authMiddleware.verifyToken);
-router.delete("/user/:id");
 
 export { router };
