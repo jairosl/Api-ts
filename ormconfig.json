@@ -1,0 +1,15 @@
+{
+  "type": "postgress",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "jairosl10",
+  "database": "apinode",
+
+  "migrations": ["./src/database/migrations/**.ts"],
+  "entities": ["./src/entities/*.ts"],
+  "logging": false,
+  "cli": {
+    "migrationsDir": "./src/database/migrations"
+  }
+}
