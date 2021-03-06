@@ -9,6 +9,7 @@ export class CreateAddress1615036047788 implements MigrationInterface {
           {
             name: "id",
             type: "uuid",
+            isPrimary: true,
           },
           {
             name: "street",
