@@ -162,7 +162,7 @@ class AddressController {
 
     await addressRepository.remove(address);
 
-    return response.status(200).json();
+    return response.json();
   }
 }
 
