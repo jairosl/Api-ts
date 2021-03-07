@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
+import { AppError } from "../errors/AppError";
 import { AddressRepository } from "../repositories/AddressRepository";
 import { UsersRepository } from "../repositories/UsersRepository";
 
@@ -23,7 +24,7 @@ class AddressController {
     const userAlreadyExists = userRepository.findOne({ id });
 
     if (!userAlreadyExists) {
-      return response.status(400).json({ error: "User no exists" });
+      throw new AppError("User no exists");
     }
 
     const addressAlreadyExists = await addressRepository.findOne({
@@ -40,7 +41,7 @@ class AddressController {
     });
 
     if (addressAlreadyExists) {
-      return response.status(400).json({ error: "Address already exists" });
+      throw new AppError("Address already exists");
     }
 
     const address = addressRepository.create({
@@ -70,7 +71,7 @@ class AddressController {
     const userAlreadyExists = userRepository.findOne({ id });
 
     if (!userAlreadyExists) {
-      return response.status(400).json({ error: "User no exists" });
+      throw new AppError("User no exists");
     }
 
     const address = await addressRepository.findOne({
@@ -81,7 +82,7 @@ class AddressController {
     });
 
     if (!address) {
-      return response.status(400).json({ error: "Address no exists" });
+      throw new AppError("Address no exists");
     }
 
     return response.json(address);
@@ -107,7 +108,7 @@ class AddressController {
     const userAlreadyExists = userRepository.findOne({ id });
 
     if (!userAlreadyExists) {
-      return response.status(400).json({ error: "User no exists" });
+      throw new AppError("User no exists");
     }
 
     const addressAlreadyExists = await addressRepository.findOne({
@@ -118,7 +119,7 @@ class AddressController {
     });
 
     if (!addressAlreadyExists) {
-      return response.status(400).json({ error: "Address no exists" });
+      throw new AppError("Address no exists");
     }
 
     const addressUpdate = await addressRepository.save({
@@ -146,7 +147,7 @@ class AddressController {
     const userAlreadyExists = userRepository.findOne({ id });
 
     if (!userAlreadyExists) {
-      return response.status(400).json({ error: "User no exists" });
+      throw new AppError("User no exists");
     }
 
     const address = await addressRepository.findOne({
@@ -157,7 +158,7 @@ class AddressController {
     });
 
     if (!address) {
-      return response.status(400).json({ error: "Address no exists" });
+      throw new AppError("Address no exists");
     }
 
     await addressRepository.remove(address);

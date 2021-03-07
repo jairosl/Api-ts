@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
+import { AppError } from "../errors/AppError";
 import { UsersRepository } from "../repositories/UsersRepository";
 import hash, { compareHash } from "../services/hash";
 
@@ -20,7 +21,7 @@ class UserController {
     const userAlreadyExists = await usersRepository.findOne({ email });
 
     if (userAlreadyExists) {
-      return response.status(400).json({ error: "User already exists" });
+      throw new AppError("User already exists");
     }
 
     const hashPassword = await hash(password);
@@ -47,7 +48,7 @@ class UserController {
     const user = await usersRepository.findOne({ id });
 
     if (!user) {
-      return response.status(400).json({ error: "No User exists!" });
+      throw new AppError("User no exists");
     }
 
     return response.json(user);
@@ -70,7 +71,7 @@ class UserController {
     const user = await usersRepository.findOne({ id });
 
     if (!user) {
-      return response.status(400).json({ error: "No User exists!" });
+      throw new AppError("No user exists");
     }
 
     const hashPassword = await hash(password);
@@ -101,11 +102,11 @@ class UserController {
     const user = await usersRepository.findOne({ id });
 
     if (!user) {
-      return response.status(400).json({ error: "No User exists!" });
+      throw new AppError("No User exists!");
     }
 
     if (!(await compareHash(user.password, password))) {
-      return response.status(400).json({ error: "Password incorrect!" });
+      throw new AppError("Password incorrect!");
     }
 
     await usersRepository.delete(

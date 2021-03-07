@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
+import { AppError } from "../errors/AppError";
 import { UsersRepository } from "../repositories/UsersRepository";
 import { compareHash } from "../services/hash";
 import { createJwtToken } from "../services/jwt";
@@ -11,19 +12,19 @@ class SessionController {
     const userRepository = getCustomRepository(UsersRepository);
 
     if (!email || !password) {
-      return response.status(400).json({ error: "Missing email or password provider" });
+      throw new AppError("Missing email or password provider");
     }
 
     const user = await userRepository.findOne({ email });
 
     if (!user) {
-      response.status(400).json({ error: "User not exists" });
+      throw new AppError("User not exists");
     }
 
     const passwordCompareHash = await compareHash(user?.password as string, password);
 
     if (!passwordCompareHash) {
-      return response.status(400).json({ error: "email or password invalid" });
+      throw new AppError("email or password invalid");
     }
 
     const tokenJwt = await createJwtToken(user?.id as string);
