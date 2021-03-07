@@ -51,7 +51,7 @@ class UserController {
       throw new AppError("User no exists");
     }
 
-    return response.json(user);
+    return response.status(200).json(user);
   }
 
   async update(request: Request, response: Response) {
@@ -95,7 +95,7 @@ class UserController {
     const { id } = request.params;
 
     if (!password) {
-      return response.status(400).json({ error: "No password provider" });
+      throw new AppError("No password provider");
     }
     const usersRepository = getCustomRepository(UsersRepository);
 
