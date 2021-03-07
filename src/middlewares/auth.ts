@@ -13,7 +13,7 @@ class Auth {
     const token = request.headers;
 
     if (!token.authorization) {
-      return response.status(401).json({ error: "No token provider" });
+      return response.status(401).json({ message: "No token provider" });
     }
     const tokenWithoutPrefix = token.authorization?.replace("Bearer ", "");
 
