@@ -77,6 +77,7 @@ class AddressController {
     const address = await addressRepository.findOne({
       where: {
         id: idAddress,
+
       },
       relations: ["user"],
     });
