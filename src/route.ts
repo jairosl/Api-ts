@@ -18,5 +18,6 @@ router.delete("/user/:id", userController.delete);
 router.post("/signin", sessionController.singIn);
 
 router.post("/address", authMiddleware.verifyToken, addressController.create);
+router.put("/address/:id", authMiddleware.verifyToken, addressController.update);
 
 export { router };
