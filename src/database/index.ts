@@ -12,7 +12,7 @@ export default async (): Promise<Connection> => {
           : defaultOptions.database,
       type: process.env.NODE_ENV === "test"
         ? "sqlite"
-        : defaultOptions.database,
+        : defaultOptions.type,
     })
   );
 };
