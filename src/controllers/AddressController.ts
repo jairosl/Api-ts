@@ -59,6 +59,34 @@ class AddressController {
     return response.status(201).json(address);
   }
 
+  async show(request: Request, response: Response) {
+    const id = request.userId;
+    const { id: idAddress } = request.params;
+
+    const addressRepository = getCustomRepository(AddressRepository);
+
+    const userRepository = getCustomRepository(UsersRepository);
+
+    const userAlreadyExists = userRepository.findOne({ id });
+
+    if (!userAlreadyExists) {
+      return response.status(400).json({ error: "User no exists" });
+    }
+
+    const address = await addressRepository.findOne({
+      where: {
+        id: idAddress,
+      },
+      relations: ["user"],
+    });
+
+    if (!address) {
+      return response.status(400).json({ error: "Address no exists" });
+    }
+
+    return response.json(address);
+  }
+
   async update(request: Request, response: Response) {
     const id = request.userId;
     const {
@@ -105,6 +133,36 @@ class AddressController {
     });
 
     return response.status(200).json(addressUpdate);
+  }
+
+  async delete(request: Request, response: Response) {
+    const id = request.userId;
+    const { id: idAddress } = request.params;
+
+    const addressRepository = getCustomRepository(AddressRepository);
+
+    const userRepository = getCustomRepository(UsersRepository);
+
+    const userAlreadyExists = userRepository.findOne({ id });
+
+    if (!userAlreadyExists) {
+      return response.status(400).json({ error: "User no exists" });
+    }
+
+    const address = await addressRepository.findOne({
+      where: {
+        id: idAddress,
+      },
+      relations: ["user"],
+    });
+
+    if (!address) {
+      return response.status(400).json({ error: "Address no exists" });
+    }
+
+    await addressRepository.remove(address);
+
+    return response.status(200).json();
   }
 }
 
