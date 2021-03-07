@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
 import { UsersRepository } from "../repositories/UsersRepository";
-import hash, { compareHash } from "../utils/hash";
+import hash, { compareHash } from "../services/hash";
 
 class UserController {
   async create(request: Request, response: Response) {

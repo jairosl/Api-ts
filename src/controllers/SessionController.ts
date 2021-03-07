@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
 import { UsersRepository } from "../repositories/UsersRepository";
-import { compareHash } from "../utils/hash";
-import { createJwtToken } from "../utils/jwt";
+import { compareHash } from "../services/hash";
+import { createJwtToken } from "../services/jwt";
 
 class SessionController {
   async singIn(request: Request, response: Response) {
