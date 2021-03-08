@@ -34,6 +34,7 @@
 - [Bcrypt](https://www.npmjs.com/package/bcrypt)
 - [Postgres](https://www.postgresql.org/)
 - [Sqlite](https://www.sqlite.org/index.html)
+- [Yup](https://github.com/jquense/yup#api)
 
 
 ## :books: Rotas
