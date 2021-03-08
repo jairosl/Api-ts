@@ -1,6 +1,8 @@
 import express, { NextFunction, Request, Response } from "express";
 import "express-async-errors";
 import "reflect-metadata";
+import cors from "cors";
+import helmet from "helmet";
 import dotenv from "dotenv";
 import createConnection from "./database";
 import { router } from "./route";
@@ -11,6 +13,12 @@ dotenv.config();
 createConnection();
 
 const app = express();
+
+app.use(cors({
+  origin: "*",
+}));
+
+app.use(helmet());
 
 app.use(express.json());
 
