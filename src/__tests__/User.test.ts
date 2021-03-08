@@ -38,7 +38,7 @@ describe("Users", () => {
     expect(response.body).toHaveProperty("id");
   });
 
-  it("Should be able no create user already exists", async () => {
+  it("Should be able no create user if already exists", async () => {
     const user = await request(app).post("/user").send({
       email: "jairo@mail.com",
       password: "jairo",
@@ -154,7 +154,7 @@ describe("Users", () => {
     expect(deleteUser.body.message).toBe("No password provider");
   });
 
-  it("Should be able no create user without attributes", async () => {
+  it("Should be able no create user without attributes in request", async () => {
     const response = await request(app).post("/user").send({
 
     });
@@ -177,5 +177,22 @@ describe("Users", () => {
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("message");
     expect(response.body.message).toBe("Email invalid");
+  });
+
+  it("Should be able no update user without attributes in request", async () => {
+    const response = await request(app).post("/user").send({
+      email: "jairo@mail.com",
+      password: "jairo",
+      name: "jairo",
+      telephone: "83993457728",
+      birthdate: "10-12-2000",
+      weight: 82,
+      ethnicity: "pardo",
+    });
+
+    const UserUpdate = await request(app).put(`/user/${response.body.id}`).send({});
+
+    expect(UserUpdate.status).toBe(400);
+    expect(UserUpdate.body).toHaveProperty("message");
   });
 });
