@@ -153,4 +153,29 @@ describe("Users", () => {
     expect(deleteUser.body).toHaveProperty("message");
     expect(deleteUser.body.message).toBe("No password provider");
   });
+
+  it("Should be able no create user without attributes", async () => {
+    const response = await request(app).post("/user").send({
+
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  it("Should be able no create user with email invalid", async () => {
+    const response = await request(app).post("/user").send({
+      email: "jairo",
+      password: "jairo",
+      name: "jairo",
+      telephone: "83993457728",
+      birthdate: "10-12-2000",
+      weight: 82,
+      ethnicity: "pardo",
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message");
+    expect(response.body.message).toBe("Email invalid");
+  });
 });
