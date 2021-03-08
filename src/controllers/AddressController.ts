@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
+import * as yup from "yup";
+
 import { AppError } from "../errors/AppError";
 import { AddressRepository } from "../repositories/AddressRepository";
 import { UsersRepository } from "../repositories/UsersRepository";
@@ -16,6 +18,22 @@ class AddressController {
       city,
       state,
     } = request.body;
+
+    const schema = yup.object().shape({
+      street: yup.string().required(),
+      district: yup.string().required(),
+      number: yup.number().required(),
+      complement: yup.string(),
+      cep: yup.string().required(),
+      city: yup.string().required(),
+      state: yup.string().required(),
+    });
+
+    try {
+      await schema.validate(request.body, { abortEarly: false });
+    } catch (err) {
+      throw new AppError(`${err.errors}`);
+    }
 
     const addressRepository = getCustomRepository(AddressRepository);
 
@@ -101,6 +119,22 @@ class AddressController {
       state,
     } = request.body;
     const { id: idAddress } = request.params;
+
+    const schema = yup.object().shape({
+      street: yup.string().required(),
+      district: yup.string().required(),
+      number: yup.number().required(),
+      complement: yup.string(),
+      cep: yup.string().required(),
+      city: yup.string().required(),
+      state: yup.string().required(),
+    });
+
+    try {
+      await schema.validate(request.body, { abortEarly: false });
+    } catch (err) {
+      throw new AppError(`${err.errors}`);
+    }
 
     const addressRepository = getCustomRepository(AddressRepository);
 
