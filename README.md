@@ -62,7 +62,7 @@
 #### Mais informações na documentação [Docs](Docs.md)
 
 <br/>
-<br/>
+
 
 ## :closed_book: Comandos para iniciar projeto
 
