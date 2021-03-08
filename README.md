@@ -77,4 +77,4 @@
 
 ## :memo: License
 
-projeto está sob a licença do MIT. veja em [LICENSE](LICENSE.md) para mais detalhes
+projeto está sob a licença do MIT. veja em [LICENSE](LICENSE) para mais detalhes
