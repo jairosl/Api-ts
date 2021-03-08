@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
+import * as yup from "yup";
+
 import { AppError } from "../errors/AppError";
 import { UsersRepository } from "../repositories/UsersRepository";
 import hash, { compareHash } from "../services/hash";
@@ -15,6 +17,22 @@ class UserController {
       weight,
       ethnicity,
     } = request.body;
+
+    const schema = yup.object().shape({
+      email: yup.string().email("Email invalid").required("Email is required"),
+      name: yup.string().required("Name is required"),
+      telephone: yup.string().required("Telephone is required"),
+      password: yup.string().min(5, "Must be exactly 5 digits").required("Password is required"),
+      birthdate: yup.date().required("Birthdate is required"),
+      weight: yup.number().required("Weight is required"),
+      ethnicity: yup.string().required("ethnicity is required").oneOf(["branco", "pardo", "negro", "amarelo", "indigena", "outro"]),
+    });
+
+    try {
+      await schema.validate(request.body, { abortEarly: false });
+    } catch (err) {
+      throw new AppError(`${err.errors}`);
+    }
 
     const usersRepository = getCustomRepository(UsersRepository);
 
@@ -65,6 +83,22 @@ class UserController {
       weight,
       ethnicity,
     } = request.body;
+
+    const schema = yup.object().shape({
+      email: yup.string().email("email invalid").required("Email is required"),
+      name: yup.string().required("Name is required"),
+      telephone: yup.string().required("Telephone is required"),
+      password: yup.string().min(5, "Must be exactly 5 digits").required("Password is required"),
+      birthdate: yup.date().required("Birthdate is required"),
+      weight: yup.number().required("Weight is required"),
+      ethnicity: yup.string().required("ethnicity is required").oneOf(["branco", "pardo", "negro", "amarelo", "indigena", "outro"]),
+    });
+
+    try {
+      await schema.validate(request.body, { abortEarly: false });
+    } catch (err) {
+      throw new AppError(`${err.errors}`);
+    }
 
     const usersRepository = getCustomRepository(UsersRepository);
 
