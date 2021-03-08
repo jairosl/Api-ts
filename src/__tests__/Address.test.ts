@@ -223,4 +223,62 @@ describe("Users", () => {
     expect(allAddress.status).toBe(200);
     expect(allAddress.body).toHaveProperty("id");
   });
+
+  it("Should be able no create address with attributes", async () => {
+    await request(app).post("/user").send({
+      email: "jairo@mail.com",
+      password: "jairo",
+      name: "jairo",
+      telephone: "83993457728",
+      birthdate: "10-12-2000",
+      weight: 82,
+      ethnicity: "pardo",
+    });
+
+    const jwtToken = await request(app).post("/signin").send({
+      email: "jairo@mail.com",
+      password: "jairo",
+    });
+
+    const response = await request(app).post("/address").send({
+
+    }).set("Authorization", `Bearer ${jwtToken.body.token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  it("Should be able no update address with attributes", async () => {
+    await request(app).post("/user").send({
+      email: "jairo@mail.com",
+      password: "jairo",
+      name: "jairo",
+      telephone: "83993457728",
+      birthdate: "10-12-2000",
+      weight: 82,
+      ethnicity: "pardo",
+    });
+
+    const jwtToken = await request(app).post("/signin").send({
+      email: "jairo@mail.com",
+      password: "jairo",
+    });
+
+    const addressNotUpdate = await request(app).post("/address").send({
+      street: "Rua any",
+      district: "Bairro any",
+      number: 180,
+      complement: "any",
+      cep: "78689654",
+      city: "cidade any",
+      state: "estado any",
+    }).set("Authorization", `Bearer ${jwtToken.body.token}`);
+
+    const addressUpdate = await request(app)
+      .put(`/address/${addressNotUpdate.body.id}`)
+      .send({}).set("Authorization", `Bearer ${jwtToken.body.token}`);
+
+    expect(addressUpdate.status).toBe(400);
+    expect(addressUpdate.body).toHaveProperty("message");
+  });
 });
